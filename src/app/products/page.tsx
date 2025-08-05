@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, ShoppingBag } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowLeft } from 'lucide-react';
 
 export default function ProductsPage() {
   const products = [
@@ -161,16 +162,18 @@ export default function ProductsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                   {/* 商品画像 */}
                   <div className="relative">
-                    <div className="aspect-square bg-gradient-to-br from-gray-100 via-gray-50 to-white border border-gray-200 group-hover:border-amber-300 transition-all duration-500 flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="w-20 h-20 border border-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center group-hover:border-amber-300 transition-colors duration-500">
-                          <ShoppingBag className="text-gray-400 group-hover:text-amber-600 transition-colors duration-500" size={24} />
-                        </div>
-                        <span className="text-gray-500 text-sm font-light tracking-wide">Coming Soon</span>
-                      </div>
+                    <div className="aspect-square relative overflow-hidden rounded-lg group-hover:scale-105 transition-transform duration-500">
+                      <Image
+                        src={`/sweets_hero_${((index % 11) + 1)}.png`}
+                        alt={product.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-500"></div>
                     </div>
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-amber-100 text-amber-800 text-xs tracking-wider font-light">
+                    <div className="absolute top-4 left-4 z-10">
+                      <span className="px-3 py-1 bg-amber-100/90 backdrop-blur-sm text-amber-800 text-xs tracking-wider font-light">
                         {product.categoryName}
                       </span>
                     </div>

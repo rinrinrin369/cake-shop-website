@@ -42,17 +42,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 洗練されたアニメーション効果
 - 美しい商品写真の魅力的な表示
 
-### 参考サイト
-1. https://non-john.com/#idx_product - ミニマルデザイン、商品紹介
-2. https://melem.tokyo/ja/ - 高級感のある色使い
-3. https://amakusa-tayuta.com/ - 季節感のある表現
-4. https://adansilk.com/ - ストーリーテリング
-
 ## サイト構造
 
 ### 必要ページ
 1. **トップページ（/）**
-   - ヒーロセクション
+   - ヒーロセクション（カルーセル形式）
    - 商品紹介へのリンク
    - 新着情報タイムライン
    - Instagramギャラリー

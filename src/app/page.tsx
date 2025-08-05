@@ -2,82 +2,140 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, Instagram, Phone, MapPin } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowRight, Instagram } from 'lucide-react';
+import { useState, useEffect } from 'react';
+
+// カルーセル用画像データ
+const heroImages = [
+  '/sweets_hero_1.png',
+  '/sweets_hero_2.png',
+  '/sweets_hero_3.png',
+  '/sweets_hero_4.png',
+  '/sweets_hero_5.png',
+];
 
 export default function Home() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  // 自動スライド機能
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+
   return (
     <div className="min-h-screen bg-white">
-      {/* ヒーローセクション */}
-      <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-80"></div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="relative z-10 text-center text-white px-4"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 1 }}
-            className="mb-8"
-          >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-thin mb-4 tracking-[0.2em] leading-tight">
-              PATISSERIE
-            </h1>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extralight text-amber-300 tracking-[0.3em] mb-8">
-              NOIR
-            </h2>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="mb-12"
-          >
-            <p className="text-base md:text-lg font-light text-gray-300 max-w-xl mx-auto leading-relaxed tracking-wide">
-              黒の美学に包まれた、至高のパティスリー<br />
-              <span className="text-amber-300">一口ごとに紡がれる、特別な物語</span>
-            </p>
-          </motion.div>
+      {/* ヒーローセクション - カルーセル */}
+      <section className="relative h-screen overflow-hidden">
+        {/* 背景画像カルーセル */}
+        <div className="absolute inset-0">
+          {heroImages.map((image, index) => (
+            <motion.div
+              key={index}
+              className="absolute inset-0"
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: index === currentSlide ? 1 : 0,
+                scale: index === currentSlide ? 1.05 : 1.1 
+              }}
+              transition={{ 
+                duration: 2.4,
+                ease: "easeInOut"
+              }}
+            >
+              <Image
+                src={image}
+                alt={`Hero image ${index + 1}`}
+                fill
+                className="object-cover"
+                priority={index === 0}
+                quality={90}
+              />
+              <div className="absolute inset-0 bg-black/60"></div>
+            </motion.div>
+          ))}
+        </div>
 
+        {/* コンテンツオーバーレイ */}
+        <div className="relative z-10 h-full flex items-center justify-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="text-center text-white px-4"
           >
-            <Link
-              href="/products"
-              className="group relative overflow-hidden px-10 py-4 border border-amber-300 text-amber-300 hover:text-black transition-all duration-500 text-sm tracking-[0.2em] font-light"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 1 }}
+              className="mb-8"
             >
-              <span className="absolute inset-0 bg-amber-300 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
-              <span className="relative flex items-center">
-                EXPLORE COLLECTION
-                <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform duration-300" size={16} />
-              </span>
-            </Link>
-            <Link
-              href="/about"
-              className="px-10 py-4 text-white border border-gray-600 hover:border-white hover:bg-white hover:text-black transition-all duration-300 text-sm tracking-[0.2em] font-light"
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-thin mb-4 tracking-[0.2em] leading-tight">
+                PATISSERIE
+              </h1>
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-extralight text-amber-300 tracking-[0.3em] mb-8">
+                NOIR
+              </h2>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="mb-12"
             >
-              OUR STORY
-            </Link>
+              <p className="text-base md:text-lg font-light text-gray-300 max-w-xl mx-auto leading-relaxed tracking-wide">
+                黒の美学に包まれた、至高のパティスリー<br />
+                <span className="text-amber-300">一口ごとに紡がれる、特別な物語</span>
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            >
+              <Link
+                href="/products"
+                className="group relative overflow-hidden px-10 py-4 border border-amber-300 text-amber-300 hover:text-black transition-all duration-500 text-sm tracking-[0.2em] font-light"
+              >
+                <span className="absolute inset-0 bg-amber-300 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+                <span className="relative flex items-center">
+                  EXPLORE COLLECTION
+                  <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform duration-300" size={16} />
+                </span>
+              </Link>
+              <Link
+                href="/about"
+                className="px-10 py-4 text-white border border-gray-600 hover:border-white hover:bg-white hover:text-black transition-all duration-300 text-sm tracking-[0.2em] font-light"
+              >
+                OUR STORY
+              </Link>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
+
+
 
         {/* スクロールインジケーター */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2, duration: 1 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
         >
-          <div className="flex flex-col items-center text-gray-400">
+          <div className="flex flex-col items-center text-gray-300">
             <span className="text-xs tracking-wider mb-2">SCROLL</span>
-            <div className="w-px h-12 bg-gradient-to-b from-gray-400 to-transparent"></div>
+            <div className="w-px h-12 bg-gradient-to-b from-gray-300 to-transparent"></div>
           </div>
         </motion.div>
       </section>
@@ -132,13 +190,15 @@ export default function Home() {
                 className="group cursor-pointer"
               >
                 <div className="relative overflow-hidden mb-6">
-                  <div className="aspect-square bg-gradient-to-br from-gray-100 via-gray-50 to-white border border-gray-200 flex items-center justify-center group-hover:border-amber-300 transition-all duration-500">
-                    <div className="text-center">
-                      <div className="w-16 h-16 border border-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center group-hover:border-amber-300 transition-colors duration-500">
-                        <span className="text-gray-400 text-xs">IMAGE</span>
-                      </div>
-                      <span className="text-gray-500 text-sm font-light tracking-wide">Coming Soon</span>
-                    </div>
+                  <div className="aspect-square relative group-hover:scale-105 transition-transform duration-500">
+                    <Image
+                      src={`/sweets_hero_${(index % 3) + 6}.png`}
+                      alt={product.title}
+                      fill
+                      className="object-cover rounded-lg"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-500 rounded-lg"></div>
                   </div>
                 </div>
                 
@@ -312,13 +372,18 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
                 whileHover={{ scale: 1.05 }}
-                className="aspect-square bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 hover:border-amber-300 transition-all duration-500 flex items-center justify-center cursor-pointer group relative overflow-hidden"
+                className="aspect-square relative cursor-pointer group overflow-hidden rounded-lg"
               >
-                <div className="text-center">
-                  <Instagram className="text-gray-600 group-hover:text-amber-300 transition-colors duration-300 mx-auto mb-2" size={32} />
-                  <span className="text-gray-500 group-hover:text-gray-300 text-xs font-light tracking-wide transition-colors duration-300">
-                    Coming Soon
-                  </span>
+                <Image
+                  src={`/sweets_hero_${(index % 11) + 1}.png`}
+                  alt={`Gallery image ${index + 1}`}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500"></div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Instagram className="text-white" size={32} />
                 </div>
                 <div className="absolute inset-0 bg-amber-300 opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
               </motion.div>

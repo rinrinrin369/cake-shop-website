@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Award, Heart, Star, Users } from 'lucide-react';
 
 export default function AboutPage() {
@@ -168,15 +169,15 @@ export default function AboutPage() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="aspect-[4/5] bg-gradient-to-br from-gray-200 to-gray-100 border border-gray-200 flex items-center justify-center hover:border-amber-300 transition-colors duration-500">
-                <div className="text-center">
-                  <Users className="text-gray-400 mx-auto mb-4" size={64} />
-                  <h4 className="text-xl font-light text-gray-600 mb-2">Chef Portrait</h4>
-                  <p className="text-sm text-gray-500 font-light">
-                    Professional photo<br />
-                    coming soon
-                  </p>
-                </div>
+              <div className="aspect-[4/5] relative overflow-hidden rounded-lg border border-gray-200 hover:border-amber-300 transition-colors duration-500">
+                <Image
+                  src="/profile.png"
+                  alt="田中美咲 - パティシエ"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                />
+                <div className="absolute inset-0 bg-black/10 hover:bg-black/5 transition-all duration-500"></div>
               </div>
               
               {/* 装飾的な要素 */}
