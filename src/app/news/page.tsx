@@ -156,15 +156,15 @@ export default function NewsPage() {
             <div className="w-16 h-px bg-amber-300 mx-auto mb-12"></div>
           </motion.div>
 
-          {newsItems.filter(item => item.featured).map((article, index) => (
-            <motion.article
-              key={article.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gray-50 rounded-none overflow-hidden mb-16 group cursor-pointer hover:bg-white hover:shadow-2xl transition-all duration-500"
-            >
+          {newsItems.filter(item => item.featured).map((article) => (
+            <Link href={`/news/${article.id}`} key={article.id}>
+              <motion.article
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="bg-gray-50 rounded-none overflow-hidden mb-16 group cursor-pointer hover:bg-white hover:shadow-2xl transition-all duration-500"
+              >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="aspect-video lg:aspect-square bg-gradient-to-br from-gray-200 to-gray-100 flex items-center justify-center group-hover:from-amber-50 group-hover:to-amber-100 transition-all duration-500">
                   <div className="text-center">
@@ -195,13 +195,17 @@ export default function NewsPage() {
                     {article.excerpt}
                   </p>
                   
-                  <button className="self-start inline-flex items-center px-8 py-3 border border-black text-black hover:bg-black hover:text-white transition-all duration-300 text-sm tracking-wider font-light">
+                  <Link 
+                    href={`/news/${article.id}`}
+                    className="self-start inline-flex items-center px-8 py-3 border border-black text-black hover:bg-black hover:text-white transition-all duration-300 text-sm tracking-wider font-light"
+                  >
                     続きを読む
                     <ArrowLeft className="ml-2 rotate-180" size={16} />
-                  </button>
+                  </Link>
                 </div>
               </div>
-            </motion.article>
+              </motion.article>
+            </Link>
           ))}
         </div>
       </section>
@@ -224,14 +228,14 @@ export default function NewsPage() {
 
           <div className="space-y-8">
             {newsItems.filter(item => !item.featured).map((article, index) => (
-              <motion.article
-                key={article.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.8 }}
-                className="bg-white rounded-none overflow-hidden group cursor-pointer hover:shadow-lg transition-all duration-500 border border-gray-200 hover:border-amber-300"
-              >
+              <Link href={`/news/${article.id}`} key={article.id}>
+                <motion.article
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.8 }}
+                  className="bg-white rounded-none overflow-hidden group cursor-pointer hover:shadow-lg transition-all duration-500 border border-gray-200 hover:border-amber-300"
+                >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-8">
                   <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center group-hover:from-amber-50 group-hover:to-amber-100 transition-all duration-500">
                     <div className="text-center">
@@ -265,13 +269,17 @@ export default function NewsPage() {
                       {article.excerpt}
                     </p>
                     
-                    <button className="self-start inline-flex items-center text-black hover:text-amber-600 transition-colors duration-300 text-sm tracking-wider font-light">
+                    <Link 
+                      href={`/news/${article.id}`}
+                      className="self-start inline-flex items-center text-black hover:text-amber-600 transition-colors duration-300 text-sm tracking-wider font-light"
+                    >
                       続きを読む
                       <ArrowLeft className="ml-2 rotate-180 group-hover:translate-x-1 transition-transform duration-300" size={14} />
-                    </button>
+                    </Link>
                   </div>
                 </div>
-              </motion.article>
+                </motion.article>
+              </Link>
             ))}
           </div>
         </div>
